@@ -333,7 +333,8 @@ body.playing .foot { display: none; }
 
 /* ── 결과 ────────────────────────────────────────────────────────────── */
 .over .wrap { display: grid; place-items: center; padding-top: 34px; }
-.over-card { padding: clamp(20px, 3vw, 34px); display: grid; gap: 12px; width: min(640px, 100%); }
+.over-card { padding: clamp(20px, 3vw, 34px); display: grid; gap: 12px; width: min(640px, 100%); justify-items: start; }
+.over-card .over-stats, .over-card .over-btns { width: 100%; }
 .over-card.win { box-shadow: 8px 8px 0 var(--green); }
 .over-card.lose { box-shadow: 8px 8px 0 var(--coral); }
 .over-card h2 { font-size: clamp(30px, 5vw, 46px); }
