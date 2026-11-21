@@ -1,0 +1,12 @@
+{
+  "slug": "fortress",
+  "name": "포트리스",
+  "schema": "fortress",
+  "db_role": "fortress_dev",
+  "bucket": "fortress",
+  "function": "fortress-fn",
+  "secret_prefix": "FORTRESS_",
+  "supabase_ref": "wjvqavianqceeyyxonfg",
+  "url": "https://bmrgoodway.github.io/fortress/",
+  "template": "bmr-app-templates v2"
+}
