@@ -1,33 +1,271 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme="day">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>포트리스 · 준비 중 · BMR APPS</title>
-<meta name="description" content="포트리스 — 준비 중인 페이지입니다 (BMR APPS)">
+<title>포트리스 · 턴제 포격 대전</title>
+<meta name="description" content="각도와 바람을 읽고 지형을 부수는 턴제 포격 게임. 1인 AI 대전(쉬움·보통·어려움)과 한 기기 로컬 2인 대전, 4종 탱크와 4개 전장, 전술 아이템 4종. 로그인 없이 바로 플레이.">
 <meta name="theme-color" content="#0abbee">
+<meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex">
-<link rel="icon" href="https://wjvqavianqceeyyxonfg.supabase.co/functions/v1/hub-favicon?slug=fortress">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
 </head>
 <body>
-<!-- 준비 중 안내 페이지입니다. 앱을 만들면 이 파일(index.html)을 내 앱 화면으로 바꾸세요.
-     개발에 필요한 정보는 BMR APPS 허브의 '내 서비스 정보 → 개발 정보'와 저장소 README.md 에 있습니다. -->
+<a class="skip" href="#main">본문으로 바로 가기</a>
+
 <header class="top">
-  <a class="mark" href="https://bmrgoodway.github.io/" aria-label="BMR APPS 메인 화면"><span>BMR</span><span>APPS</span></a>
+  <a class="mark" href="./" id="logoHome" aria-label="포트리스 처음 화면으로">
+    <svg viewBox="0 0 48 48" role="img" aria-hidden="true" focusable="false">
+      <rect x="1" y="1" width="46" height="46" fill="#ffdc1a" stroke="#0a0d14" stroke-width="2"/>
+      <rect x="7" y="31" width="34" height="7" fill="#0a0d14"/>
+      <rect x="10" y="30" width="5" height="3" fill="#ffffff"/>
+      <rect x="20" y="30" width="5" height="3" fill="#ffffff"/>
+      <rect x="30" y="30" width="5" height="3" fill="#ffffff"/>
+      <rect x="11" y="21" width="24" height="9" fill="#0abbee" stroke="#0a0d14" stroke-width="2"/>
+      <circle cx="23" cy="21" r="6" fill="#ffffff" stroke="#0a0d14" stroke-width="2"/>
+      <path d="M26 17.5 L42 9.5 L43.5 13 L27.5 21 Z" fill="#0a0d14"/>
+      <path d="M8 15 Q16 7 25 11" fill="none" stroke="#ff614a" stroke-width="2.4"/>
+      <circle cx="34" cy="6" r="3.2" fill="#ff614a" stroke="#0a0d14" stroke-width="1.6"/>
+    </svg>
+  </a>
+  <div class="brand">
+    <b>포트리스</b>
+    <small>GOODWAY APPS · TURN-BASED ARTILLERY</small>
+  </div>
+
+  <div class="topstats" id="topStats" hidden>
+    <span class="stat" id="statTurn"><i class="turn-dot" id="turnDot"></i><b id="turnName">캐논</b></span>
+    <span class="stat wind" title="이번 턴 바람">
+      <span class="k">바람</span>
+      <span class="wind-arrow" id="windArrow">→</span>
+      <b id="windVal">0</b><small>m/s</small>
+    </span>
+    <span class="stat" id="statTimer" hidden><span class="k">남은 시간</span><b id="timerVal">30</b><small>s</small></span>
+  </div>
+
+  <div class="topbtns">
+    <button type="button" class="icon-btn" id="btnSound" aria-pressed="true" aria-label="효과음 켜짐" title="효과음 켜기/끄기"><span id="soundIcon">♪</span></button>
+    <button type="button" class="icon-btn" id="btnTheme" aria-pressed="true" aria-label="밤 화면" title="밤/낮 화면"><span id="themeIcon">☾</span></button>
+    <button type="button" class="icon-btn" id="btnHelp" aria-label="플레이 방법" title="플레이 방법">?</button>
+  </div>
 </header>
-<main class="wrap">
-  <section class="hero">
-    <div class="copy">
-      <span class="eyebrow">준비 중</span>
-      <h1 data-app-name>포트리스</h1>
-      <p class="desc" data-app-desc hidden></p>
-      <p class="notice"><b>준비 중인 페이지입니다.</b> 곧 이 주소에서 서비스를 열 예정이에요.</p>
-      <a class="btn" href="https://bmrgoodway.github.io/">BMR APPS 서비스 둘러보기</a>
+
+<main id="main" tabindex="-1">
+  <noscript><p class="wrap notice">이 게임은 브라우저에서 바로 실행됩니다. 자바스크립트를 켜 주세요.</p></noscript>
+
+  <!-- ── 시작 화면 ───────────────────────────────────────────────────── -->
+  <section class="screen menu" id="scrMenu">
+    <div class="wrap">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="kicker">턴제 포격 대전</span>
+          <h1>포트리스<br><span class="hero-sub">FORTRESS</span></h1>
+          <p class="hero-desc">각도와 바람을 읽고, 지형을 부수고, 마지막 한 발을 노려라.<br>한 기기에서 AI와, 또는 친구와 번갈아 쏩니다.</p>
+          <div class="hero-badges">
+            <span class="badge b-cyan">탱크 4종</span>
+            <span class="badge b-yellow">전장 4종</span>
+            <span class="badge b-green">아이템 4종</span>
+            <span class="badge b-coral">지형 파괴</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 320 240" class="hero-svg">
+            <rect x="0" y="0" width="320" height="240" fill="#0abbee"/>
+            <circle cx="252" cy="52" r="30" fill="#ffdc1a" stroke="#0a0d14" stroke-width="4"/>
+            <path d="M0 190 Q60 150 120 182 T240 172 T320 188 L320 240 L0 240 Z" fill="#02c245" stroke="#0a0d14" stroke-width="4"/>
+            <rect x="0" y="206" width="320" height="34" fill="#c0854b" stroke="#0a0d14" stroke-width="4"/>
+            <rect x="42" y="168" width="72" height="12" fill="#0a0d14"/>
+            <rect x="48" y="166" width="8" height="6" fill="#fff"/>
+            <rect x="66" y="166" width="8" height="6" fill="#fff"/>
+            <rect x="84" y="166" width="8" height="6" fill="#fff"/>
+            <rect x="52" y="146" width="52" height="20" fill="#ff614a" stroke="#0a0d14" stroke-width="4"/>
+            <circle cx="78" cy="146" r="14" fill="#ffd9d2" stroke="#0a0d14" stroke-width="4"/>
+            <path d="M84 138 L140 108 L146 120 L92 150 Z" fill="#0a0d14"/>
+            <path d="M150 100 Q210 30 268 96" fill="none" stroke="#fff6d8" stroke-width="3" stroke-dasharray="7 8"/>
+            <circle cx="272" cy="100" r="10" fill="#ff8a3d" stroke="#0a0d14" stroke-width="4"/>
+            <path d="M286 108 l12 -10 M292 118 l14 -4 M276 120 l8 12" stroke="#0a0d14" stroke-width="4"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="menu-grid">
+        <section class="panel mode-panel" aria-labelledby="modeTitle">
+          <h2 id="modeTitle">어떻게 대전할까요?</h2>
+          <div class="mode-card ai">
+            <div class="mode-head">
+              <span class="mode-icon" aria-hidden="true">🤖</span>
+              <div>
+                <h3>1인 AI 대전</h3>
+                <p>난이도에 따라 AI의 바람 계산과 조준 정확도가 달라집니다.</p>
+              </div>
+            </div>
+            <div class="diff-row" id="diffRow">
+              <button type="button" class="diff" data-diff="easy"><b>쉬움</b><small>바람을 잘 못 읽음</small></button>
+              <button type="button" class="diff is-on" data-diff="normal"><b>보통</b><small>제법 정확함</small></button>
+              <button type="button" class="diff" data-diff="hard"><b>어려움</b><small>거의 정확히 노림</small></button>
+            </div>
+            <button type="button" class="btn primary big" id="btnAi"><span aria-hidden="true">🤖</span> AI와 대전 시작</button>
+          </div>
+          <div class="mode-card local">
+            <div class="mode-head">
+              <span class="mode-icon" aria-hidden="true">👥</span>
+              <div>
+                <h3>로컬 2인 대전</h3>
+                <p>한 기기에서 턴을 번갈아 조준하고 쏩니다.</p>
+              </div>
+            </div>
+            <button type="button" class="btn big" id="btnLocal"><span aria-hidden="true">👥</span> 2인 대전 시작</button>
+          </div>
+        </section>
+
+        <section class="panel field-panel" aria-labelledby="fieldTitle">
+          <h2 id="fieldTitle">전장</h2>
+          <div class="field-grid" id="fieldGrid"><!-- JS --></div>
+          <div class="option-row">
+            <label class="switch">
+              <input type="checkbox" id="optTimer">
+              <span class="switch-track" aria-hidden="true"><i></i></span>
+              <span class="switch-text"><b>턴 제한 시간 30초</b><small>시간이 지나면 자동 발사</small></span>
+            </label>
+          </div>
+          <p class="menu-note">테마(낮/밤)와 효과음은 오른쪽 위 버튼에서 바꿀 수 있습니다.</p>
+        </section>
+      </div>
+
+      <section class="panel tips">
+        <h2>이렇게 싸웁니다</h2>
+        <ol class="tip-list">
+          <li><b>이동</b> 연료 안에서 좌우로 움직입니다. 경사면은 오르막일수록 연료를 더 씁니다.</li>
+          <li><b>조준</b> ↑/↓ 또는 각도 버튼으로 포신을 세우고, FIRE(스페이스)를 꾹 눌러 파워를 모은 뒤 놓습니다.</li>
+          <li><b>바람</b> 매 턴 바뀝니다. 화면 위 바람 화살표 반대쪽으로 탄이 밀립니다.</li>
+          <li><b>아이템</b> 더블샷·파워업·순간이동탄·수리키트를 한 번씩 씁니다. 수리키트는 턴을 쓰지 않습니다.</li>
+        </ol>
+      </section>
     </div>
-    <div class="art" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i><i class="e"></i><i class="f"></i></div>
+  </section>
+
+  <!-- ── 탱크 선택 ───────────────────────────────────────────────────── -->
+  <section class="screen select" id="scrSelect" hidden>
+    <div class="wrap">
+      <div class="select-head">
+        <span class="kicker" id="selectKicker">1P 탱크 선택</span>
+        <h2 id="selectTitle">어떤 탱크로 싸울까요?</h2>
+        <p class="select-sub" id="selectSub">체력·이동력·포탄 특성이 다릅니다.</p>
+      </div>
+      <div class="tank-grid" id="tankGrid"><!-- JS --></div>
+      <div class="select-foot">
+        <button type="button" class="btn" id="btnSelectBack">← 이전</button>
+        <div class="picked" id="pickedLine">선택: 캐논</div>
+        <button type="button" class="btn primary big" id="btnSelectNext">다음 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 게임 ───────────────────────────────────────────────────────── -->
+  <section class="screen game" id="scrGame" hidden>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="포트리스 전장"></canvas>
+      <div class="stage-top">
+        <span class="turn-chip" id="turnChip"><i></i><b>내 턴</b></span>
+        <span class="wind-chip" id="windChip"><span aria-hidden="true">💨</span> <b id="windChipVal">→ 3.2</b></span>
+        <button type="button" class="quit-btn" id="btnQuit" aria-label="대전 그만두기">나가기</button>
+      </div>
+      <div class="turn-banner" id="turnBanner" hidden><b>내 턴</b><small>조준하고 쏘세요</small></div>
+      <div class="stage-tip" id="stageTip" hidden></div>
+    </div>
+
+    <div class="battle-strip">
+      <div class="fighter" id="fighter0">
+        <div class="fighter-top"><b id="p0name">캐논</b><span class="hp-num" id="p0hp">132</span></div>
+        <div class="bar hp"><i id="p0bar"></i></div>
+        <div class="bar fuel"><i id="p0fuel"></i></div>
+      </div>
+      <div class="vs" aria-hidden="true">VS</div>
+      <div class="fighter right" id="fighter1">
+        <div class="fighter-top"><span class="hp-num" id="p1hp">112</span><b id="p1name">미사일</b></div>
+        <div class="bar hp"><i id="p1bar"></i></div>
+        <div class="bar fuel"><i id="p1fuel"></i></div>
+      </div>
+    </div>
+
+    <div class="controls" id="controls">
+      <div class="ctl move">
+        <button type="button" class="pad" data-act="left" aria-label="왼쪽으로 이동" title="왼쪽 이동 (←)">◀</button>
+        <div class="ctl-info"><span class="ctl-k">이동</span><b id="fuelTxt">100</b><small>연료</small></div>
+        <button type="button" class="pad" data-act="right" aria-label="오른쪽으로 이동" title="오른쪽 이동 (→)">▶</button>
+      </div>
+      <div class="ctl aim">
+        <button type="button" class="pad" data-act="up" aria-label="각도 올리기" title="각도 올리기 (↑)">▲</button>
+        <div class="ctl-info"><span class="ctl-k">각도</span><b id="angleTxt">45°</b></div>
+        <button type="button" class="pad" data-act="down" aria-label="각도 내리기" title="각도 내리기 (↓)">▼</button>
+      </div>
+      <div class="ctl fire-ctl">
+        <div class="gauge" id="gauge">
+          <div class="gauge-fill" id="gaugeFill"></div>
+          <div class="gauge-marks" aria-hidden="true"><i></i><i></i><i></i></div>
+          <span class="gauge-txt" id="gaugeTxt">파워 55%</span>
+        </div>
+        <button type="button" class="fire-btn" id="fireBtn" data-act="fire" aria-label="꾹 눌러 파워를 모으고 놓으면 발사">
+          <span class="fire-main">FIRE</span>
+          <span class="fire-sub">꾹 눌러 차징</span>
+        </button>
+      </div>
+      <div class="ctl items-ctl">
+        <div class="items" id="items"><!-- JS --></div>
+        <div class="keys-hint">←/→ 이동 · ↑/↓ 각도 · Space 차징</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 결과 ────────────────────────────────────────────────────────── -->
+  <section class="screen over" id="scrOver" hidden>
+    <div class="wrap">
+      <div class="over-card panel" id="overCard">
+        <span class="kicker" id="overKicker">전투 종료</span>
+        <h2 id="overTitle">승리!</h2>
+        <p id="overSub">마지막 한 발이 통했습니다.</p>
+        <div class="over-stats" id="overStats"><!-- JS --></div>
+        <div class="over-btns">
+          <button type="button" class="btn primary big" id="btnRematch">같은 설정으로 다시</button>
+          <button type="button" class="btn" id="btnMenu">처음 화면으로</button>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
-<footer class="foot">별무리 개발자들이 함께 만들고 나누는 공간 · <a href="https://bmrgoodway.github.io/">BMR APPS</a></footer>
+
+<footer class="foot">
+  <p><b>포트리스</b> — 턴제 포격 대전 · <span class="foot-brand">GOODWAY APPS</span></p>
+  <p class="foot-src">로그인 없이 브라우저에서 바로 플레이합니다. 모든 계산은 이 기기 안에서만 이루어집니다.</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<dialog class="sheet" id="helpDlg" aria-labelledby="helpTitle">
+  <div class="sheet-head">
+    <h2 id="helpTitle">플레이 방법</h2>
+    <button type="button" class="icon-btn" id="helpClose" aria-label="닫기">✕</button>
+  </div>
+  <div class="sheet-body">
+    <h3>1. 탱크 고르기</h3>
+    <p>캐논은 지형을 크게 파고, 미사일은 바람을 덜 타며 두 발, 캐롯은 세 갈래로 흩뿌리고, 레이저는 낮고 빠르게 꽂힙니다.</p>
+    <h3>2. 내 턴에 할 일</h3>
+    <ul>
+      <li><b>이동</b> — ◀ ▶ 버튼이나 ←/→ 키. 연료를 다 쓰면 그 턴엔 못 움직입니다.</li>
+      <li><b>각도</b> — ▲ ▼ 버튼이나 ↑/↓ 키. 포신이 향한 쪽으로 날아갑니다.</li>
+      <li><b>발사</b> — FIRE 버튼(또는 Space)을 꾹 누르고 있으면 파워가 차오릅니다. 놓는 순간 발사!</li>
+      <li><b>아이템</b> — 경기 중 한 번씩. 더블샷은 한 발 더, 파워업은 피해·파괴력 증가, 순간이동탄은 착탄 지점으로 이동, 수리키트는 체력 30 회복입니다.</li>
+    </ul>
+    <h3>3. 알아 두면 좋은 것</h3>
+    <ul>
+      <li>바람은 매 턴 바뀝니다. 화면 위 화살표를 보고 반대쪽을 겨냥하세요.</li>
+      <li>노란 점선은 <b>지난 턴에 쏜 궤적</b>입니다. 각도·파워를 기억해 두면 다음 턴이 쉬워집니다.</li>
+      <li>지형은 실제로 파입니다. 다리나 발밑을 무너뜨려 떨어뜨릴 수 있습니다.</li>
+      <li>턴 제한 시간을 켜면 30초 뒤 자동으로 발사됩니다.</li>
+    </ul>
+  </div>
+</dialog>
+
 <script type="module" src="/src/main.js"></script>
 </body>
 </html>
