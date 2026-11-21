@@ -285,12 +285,13 @@ export class View {
     const label = `이전 ${Math.round(prev.angle)}° · ${Math.round(prev.power)}%`;
     ctx.font = '700 11px "Pretendard Variable", Pretendard, system-ui, sans-serif';
     const tw = ctx.measureText(label).width;
+    const labelY = Math.max(16, py - 100);
     ctx.fillStyle = 'rgba(10,13,20,0.84)';
-    ctx.fillRect(px - tw / 2 - 6, py - 74, tw + 12, 18);
+    ctx.fillRect(px - tw / 2 - 6, labelY, tw + 12, 18);
     ctx.fillStyle = '#ffdc1a';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(label, px, py - 65);
+    ctx.fillText(label, px, labelY + 9);
     ctx.restore();
     if (end) {
       ctx.save();

@@ -184,6 +184,8 @@ export class Terrain {
       }
     }
     const ctx = this.ctx;
+    const surf = this.surfaceY(cx);
+    const topY = Math.min(cy, surf < 0 ? cy : surf);
     ctx.save();
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
@@ -191,10 +193,21 @@ export class Terrain {
     ctx.fill();
     ctx.restore();
 
-    // 지형에 닿은 쪽에만 그을음 테두리
+    // 지형에 닿은 쪽에만 그을음 테두리 + 파인 속(어두운 흙)
     ctx.save();
     ctx.globalCompositeOperation = 'source-over';
     const p = this.palette;
+    const inside = ctx.createRadialGradient(cx, cy, r * 0.12, cx, cy, r * 1.05);
+    inside.addColorStop(0, '#1a1109');
+    inside.addColorStop(0.6, '#2c1f14');
+    inside.addColorStop(1, p.rock);
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, Math.max(1, r * 0.97), 0, Math.PI * 2);
+    ctx.clip();
+    ctx.fillStyle = inside;
+    ctx.fillRect(cx - r - 1, topY + 2, r * 2 + 2, r * 2 + (cy - topY) + 4);
+    ctx.restore();
     const testR = r + 3;
     const ring = (rr, width, color, alpha) => {
       ctx.strokeStyle = color;
