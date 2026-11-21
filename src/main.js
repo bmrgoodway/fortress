@@ -291,7 +291,12 @@ function startLoop() {
       state.game.update(dt);
       syncGameUI(false);
       state.view.draw(dt);
-      if (state.game.projectiles.length === 0) sfx.whistleStop();
+      if (state.game.projectiles.length) {
+        const pr = state.game.projectiles[0];
+        sfx.whistleUpdate(Math.hypot(pr.vx, pr.vy));
+      } else {
+        sfx.whistleStop();
+      }
       if (state.game.over && !state.overShown) {
         state.overTimer += dt;
         if (state.overTimer > 1.1) showOver();
